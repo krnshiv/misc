@@ -10,12 +10,13 @@ const SignIn = ({ history }) => {
     const dispatch = useDispatch();
     
     const state = useSelector(state => state);
+    if(!state?.registeredUsers) history.push('/signup') 
+    if(state?.loginUser?.isLoggedIn) history.push('/signout') 
 
     const hadndleSubmit = (e) => {
         e.preventDefault();
         const userExists = state.registeredUsers?.find((x)=>x.email===email)
-        if (userExists) 
-            dispatch(signIn({ email, password }))
+        if (userExists) dispatch(signIn({ email, password }))
         if (userExists || ( state?.loginUser?.isLoggedIn )) {
             history.push('/')
         } 

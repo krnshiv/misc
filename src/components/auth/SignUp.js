@@ -7,23 +7,24 @@ const SignUp = ({ history}) => {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const state = useSelector(state => state.registeredUsers);
-    
+    const state = useSelector(state => state);
+    if(state?.loginUser?.isLoggedIn) history.push('/signout') 
+
     const dispatch = useDispatch();
     const hadndleSubmit=(e) =>{
         e.preventDefault();
-        let isRegistered = state?.find((eg)=>eg.email===email);
+        let isRegistered = state?.registeredUsers.find((eg)=>eg.email===email);
         console.log(state,email)
         if (isRegistered){
             history.push('/signin')
+        }else{
+            dispatch(signUp({email,password}))
+            history.push('/signin')
         }
 
-        dispatch(signUp({email,password}))
-        history.push('/signin')
         
     }
 
-    
     return (
       <div>
           <form onSubmit={(e)=> hadndleSubmit(e)}>
